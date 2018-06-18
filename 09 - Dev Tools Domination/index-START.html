@@ -19,27 +19,74 @@
 
     // Regular
 
+    console.log('Hello my name is %s", "Scott');
+
     // Interpolated
+
+    console.log('Hello my name is %s", "Scott');
 
     // Styled
 
+    console.log('%cHello my name is Scott', 'font-size:30px; text-shadow: 10px 10px 0 black');
+
     // warning!
+
+    console.warn('OH GOD NO');
 
     // Error :|
 
+    //console.error('OH GOD NO NOT AGAIN!');
+
     // Info
+
+    console.info('This is a fact!');
 
     // Testing
 
+    const p = document.querySelector('p');
+
+    //console.assert(p.classList.contains('ouch'), 'That is wrong!');
+
     // clearing
+
+    console.clear();
 
     // Viewing DOM Elements
 
+    console.log(p);
+    console.dir(p);
+
     // Grouping together
+
+    console.clear();
+
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`)
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`)
+    });
 
     // counting
 
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Wes');
+    console.count('Steve');
+    console.count('Steve');
+
     // timing
+    const wes = [];
+    console.time("Fetching data")
+    fetch('https://api.github.com/users/wesbos')
+      .then(response => response.json())
+      .then(data => wes.push(data));
+      console.log(wes.avatar_url);
+    console.timeEnd("Fetching data")
+
+    console.table(dogs);
 
   </script>
 </body>
