@@ -84,7 +84,7 @@
       <input type="checkbox">
       <p>Try do it without any libraries</p>
     </div>
-    <div class="item">
+    <div class="item"> 
       <input type="checkbox">
       <p>Just regular JavaScript</p>
     </div>
@@ -93,12 +93,33 @@
       <p>Good Luck!</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input type="checkbox"> 
       <p>Don't forget to tweet your result!</p>
     </div>
   </div>
 
 <script>
+
+const checkboxes = document.querySelectorAll('.item input');
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
+let lastChecked = "";
+
+function handleCheck(e) {
+  let inBetween = false;
+  if (e.shiftKey && this.checked) {
+    checkboxes.forEach(checkbox => {
+      if(checkbox === this || checkbox === lastChecked) {
+        inBetween = !inBetween;
+      }
+      if(inBetween) {
+        checkbox.checked = true;
+      }
+    });
+  }
+  lastChecked = this;
+}
+
 </script>
 </body>
 </html>
