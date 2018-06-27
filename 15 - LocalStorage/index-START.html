@@ -23,12 +23,83 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <form class="bulk-actions">
+     <button class="check-all" value="Check All">Check All</button>
+     <button class="uncheck-all" value="Check All">Uncheck All</button>
+     <button class="clear" value="Check All">Clear</button>
+    </form>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+  const checkAll = document.querySelector('.check-all');
+  const uncheckAll = document.querySelector('.uncheck-all');
+  const clear = document.querySelector('.clear');
+
+  function addItem(e) {
+    e.preventDefault();
+    const text = (this.querySelector('[name=item]')).value;
+    const item = {
+      text,
+      done: false
+    };
+    
+    items.push(item);
+    populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
+    this.reset();
+  }
+
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate, i) => {
+      return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function toggleDone(e) {
+    if (!e.target.matches('input')) return;
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  function checkAllItems(e) {
+    e.preventDefault();
+    items.forEach(item => item.done = true);
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  function uncheckAllItems(e) {
+    e.preventDefault();
+    items.forEach(item => item.done = false);
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  function clearAllItems(e) {
+    e.preventDefault();
+    items.length = 0;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  itemsList.addEventListener('click', toggleDone);
+  addItems.addEventListener('submit', addItem);
+  checkAll.addEventListener('click', checkAllItems);
+  uncheckAll.addEventListener('click', uncheckAllItems);
+  clear.addEventListener('click', clearAllItems);
+
+  populateList(items, itemsList);
 
 </script>
 
